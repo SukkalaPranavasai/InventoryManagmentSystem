@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Dashboard - Inventory Management System</title>
+	<!-- Bootstrap CSS -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+	<!-- Font Awesome -->
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+	<link rel="stylesheet" th:href="@{/static/css/style.css}">
+</head>
+
+<body>
+	<div class="wrapper">
+		<!-- Sidebar -->
+		<nav id="sidebar">
+			<div class="sidebar-header">
+				<h3>IMS</h3>
+			</div>
+
+			<ul class="list-unstyled components">
+				<li class="active">
+					<a th:href="@{/}">
+						<i class="fas fa-home"></i>
+						Dashboard
+					</a>
+				</li>
+				<li>
+					<a th:href="@{/products}">
+						<i class="fas fa-box"></i>
+						Products
+					</a>
+				</li>
+				<li>
+					<a th:href="@{/orders}">
+						<i class="fas fa-shopping-cart"></i>
+						Orders
+					</a>
+				</li>
+				<li>
+					<a th:href="@{/suppliers}">
+						<i class="fas fa-truck"></i>
+						Suppliers
+					</a>
+				</li>
+				<li>
+					<a th:href="@{/reports}">
+						<i class="fas fa-chart-bar"></i>
+						Reports
+					</a>
+				</li>
+			</ul>
+		</nav>
+
+		<!-- Page Content -->
+		<div id="content">
+			<!-- Navbar -->
+			<nav class="navbar navbar-expand-lg navbar-light bg-light">
+				<div class="container-fluid">
+					<button type="button" id="sidebarCollapse" class="btn btn-info" aria-label="Toggle Sidebar"
+						title="Toggle Sidebar">
+						<i class="fas fa-bars" aria-hidden="true"></i>
+					</button>
+					<span class="navbar-text ms-auto">
+						Dashboard
+					</span>
+				</div>
+			</nav>
+
+			<!-- Main Content -->
+			<div class="container-fluid content-wrapper">
+				<div class="row">
+					<div class="col-md-4 mb-4">
+						<div class="card">
+							<div class="card-body text-center">
+								<i class="fas fa-box fa-3x mb-3 text-primary"></i>
+								<h5 class="card-title">Total Products</h5>
+								<p class="card-text display-4" id="totalProducts">-</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4 mb-4">
+						<div class="card">
+							<div class="card-body text-center">
+								<i class="fas fa-shopping-cart fa-3x mb-3 text-success"></i>
+								<h5 class="card-title">Orders Pending</h5>
+								<p class="card-text display-4" id="pendingOrders">-</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4 mb-4">
+						<div class="card">
+							<div class="card-body text-center">
+								<i class="fas fa-exclamation-triangle fa-3x mb-3 text-warning"></i>
+								<h5 class="card-title">Low Stock Items</h5>
+								<p class="card-text display-4" id="lowStockItems">-</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- Recent Activity Section -->
+				<div class="row mb-4">
+					<div class="col-12">
+						<div class="card">
+							<div class="card-header">
+								<h5 class="card-title mb-0">Recent Activity</h5>
+							</div>
+							<div class="card-body">
+								<div id="recentActivity">
+									<p class="text-center">Loading recent activity...</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Bootstrap JS and dependencies -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script th:src="@{/static/js/main.js}"></script>
+</body>
+
+</html>
