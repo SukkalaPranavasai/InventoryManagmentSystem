@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Suppliers - Inventory Management System</title>
+	<!-- Bootstrap CSS -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+	<!-- Font Awesome -->
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+	<link rel="stylesheet" th:href="@{/static/css/style.css}">
+</head>
+
+<body>
+	<div class="wrapper">
+		<!-- Sidebar -->
+		<nav id="sidebar">
+			<div class="sidebar-header">
+				<h3>IMS</h3>
+			</div>
+
+			<ul class="list-unstyled components">
+				<li>
+					<a th:href="@{/}">
+						<i class="fas fa-home"></i>
+						Dashboard
+					</a>
+				</li>
+				<li>
+					<a th:href="@{/products}">
+						<i class="fas fa-box"></i>
+						Products
+					</a>
+				</li>
+				<li>
+					<a th:href="@{/orders}">
+						<i class="fas fa-shopping-cart"></i>
+						Orders
+					</a>
+				</li>
+				<li class="active">
+					<a th:href="@{/suppliers}">
+						<i class="fas fa-truck"></i>
+						Suppliers
+					</a>
+				</li>
+				<li>
+					<a th:href="@{/reports}">
+						<i class="fas fa-chart-bar"></i>
+						Reports
+					</a>
+				</li>
+			</ul>
+		</nav>
+
+		<!-- Page Content -->
+		<div id="content">
+			<!-- Navbar -->
+			<nav class="navbar navbar-expand-lg navbar-light bg-light">
+				<div class="container-fluid">
+					<button type="button" id="sidebarCollapse" class="btn btn-info" aria-label="Toggle Sidebar"
+						title="Toggle Sidebar">
+						<i class="fas fa-bars" aria-hidden="true"></i>
+					</button>
+					<span class="navbar-text ms-auto">
+						Suppliers Management
+					</span>
+				</div>
+			</nav>
+
+			<!-- Main Content -->
+			<div class="container-fluid content-wrapper">
+				<div class="row mb-4">
+					<div class="col-12">
+						<div class="card">
+							<div class="card-header d-flex justify-content-between align-items-center">
+								<h5 class="card-title mb-0">Suppliers List</h5>
+								<button class="btn btn-primary" data-bs-toggle="modal"
+									data-bs-target="#addSupplierModal" title="Add New Supplier"
+									aria-label="Add New Supplier">
+									<i class="fas fa-plus" aria-hidden="true"></i> Add New Supplier
+								</button>
+							</div>
+							<div class="card-body">
+								<div class="table-responsive">
+									<table class="table table-hover">
+										<thead>
+											<tr>
+												<th>ID</th>
+												<th>Name</th>
+												<th>Email</th>
+												<th>Phone</th>
+												<th>Address</th>
+												<th>Actions</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr th:each="supplier : ${suppliers}">
+												<td th:text="${supplier.id}"></td>
+												<td th:text="${supplier.name}"></td>
+												<td th:text="${supplier.email}"></td>
+												<td th:text="${supplier.phone}"></td>
+												<td th:text="${supplier.address}"></td>
+												<td>
+													<button class="btn btn-sm btn-warning me-2"
+														th:onclick="'editSupplier(' + ${supplier.id} + ')'"
+														th:title="'Edit ' + ${supplier.name}"
+														th:aria-label="'Edit ' + ${supplier.name}">
+														<i class="fas fa-edit" aria-hidden="true"></i>
+														<span class="visually-hidden">Edit</span>
+													</button>
+													<button class="btn btn-sm btn-danger"
+														th:onclick="'deleteSupplier(' + ${supplier.id} + ')'"
+														th:title="'Delete ' + ${supplier.name}"
+														th:aria-label="'Delete ' + ${supplier.name}">
+														<i class="fas fa-trash" aria-hidden="true"></i>
+														<span class="visually-hidden">Delete</span>
+													</button>
+												</td>
+											</tr>
+											<tr th:if="${#lists.isEmpty(suppliers)}">
+												<td colspan="6" class="text-center">No suppliers found. Add your first
+													supplier!</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Add Supplier Modal -->
+	<div class="modal fade" id="addSupplierModal" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Add New Supplier</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+						title="Close"></button>
+				</div>
+				<div class="modal-body">
+					<form id="addSupplierForm">
+						<div class="mb-3">
+							<label for="supplierName" class="form-label">Name</label>
+							<input type="text" class="form-control" id="supplierName" required>
+						</div>
+						<div class="mb-3">
+							<label for="supplierEmail" class="form-label">Email</label>
+							<input type="email" class="form-control" id="supplierEmail" required>
+						</div>
+						<div class="mb-3">
+							<label for="supplierPhone" class="form-label">Phone</label>
+							<input type="tel" class="form-control" id="supplierPhone" required>
+						</div>
+						<div class="mb-3">
+							<label for="supplierAddress" class="form-label">Address</label>
+							<textarea class="form-control" id="supplierAddress" rows="3" required></textarea>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" title="Cancel"
+						aria-label="Cancel">Cancel</button>
+					<button type="button" class="btn btn-primary" onclick="saveSupplier()" title="Save Supplier"
+						aria-label="Save Supplier">Save Supplier</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Delete Supplier Confirmation Modal -->
+	<div class="modal fade" id="deleteSupplierConfirmModal" tabindex="-1">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Confirm Delete</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+						title="Close"></button>
+				</div>
+				<div class="modal-body">
+					Are you sure you want to delete this supplier?
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" title="Cancel"
+						aria-label="Cancel">Cancel</button>
+					<button type="button" class="btn btn-danger" id="confirmDeleteSupplierBtn" onclick="confirmDeleteSupplier()" 
+						title="Delete" aria-label="Delete">Delete</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Bootstrap JS and dependencies -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script th:src="@{/static/js/suppliers.js}"></script>
+</body>
+
+</html>

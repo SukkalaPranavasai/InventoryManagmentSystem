@@ -1,0 +1,182 @@
+/* General Styling */
+body {
+	font-family: Arial, sans-serif;
+	margin: 0;
+	padding: 0;
+	background-color: #f4f4f4;
+}
+
+/* Header */
+.header {
+	background-color: #333;
+	color: white;
+	text-align: center;
+	padding: 1rem;
+	font-size: 1.5rem;
+}
+
+/* Sidebar and Layout */
+.wrapper {
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+#sidebar {
+	min-width: 250px;
+	max-width: 250px;
+	min-height: 100vh;
+	background: #2c3e50;
+	color: #fff;
+	transition: all 0.3s;
+}
+
+#sidebar.active {
+	margin-left: -250px;
+}
+
+#sidebar .sidebar-header {
+	padding: 20px;
+	background: #1a2634;
+}
+
+#sidebar ul.components {
+	padding: 20px 0;
+}
+
+#sidebar ul li a {
+	padding: 10px 20px;
+	font-size: 1.1em;
+	display: block;
+	color: #fff;
+	text-decoration: none;
+	transition: all 0.3s;
+}
+
+#sidebar ul li a:hover {
+	background: #34495e;
+}
+
+#sidebar ul li.active>a {
+	background: #3498db;
+}
+
+#sidebar ul li a i {
+	margin-right: 10px;
+}
+
+/* Content Area */
+#content {
+	width: 100%;
+	min-height: 100vh;
+	transition: all 0.3s;
+	background: #f8f9fa;
+}
+
+.content-wrapper {
+	padding: 20px;
+}
+
+/* Navbar */
+.navbar {
+	padding: 15px 10px;
+	background: #fff;
+	border: none;
+	border-radius: 0;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+
+#sidebarCollapse {
+	background: #3498db;
+	border: none;
+}
+
+#sidebarCollapse:hover {
+	background: #2980b9;
+}
+
+/* Cards */
+.card {
+	border: none;
+	border-radius: 10px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	margin-bottom: 20px;
+	overflow: hidden;
+}
+
+.card-header {
+	background-color: #fff;
+	border-bottom: 1px solid #eee;
+	padding: 15px 20px;
+}
+
+.card-body {
+	padding: 20px;
+	position: relative;
+}
+
+/* Tables */
+.table {
+	margin-bottom: 0;
+}
+
+.table th {
+	border-top: none;
+	font-weight: 600;
+}
+
+.table td {
+	vertical-align: middle;
+}
+
+/* Badges and Alerts */
+.badge {
+	padding: 8px 12px;
+	font-weight: 500;
+}
+
+.alert {
+	border: none;
+	border-radius: 8px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+	#sidebar {
+		margin-left: -250px;
+	}
+
+	#sidebar.active {
+		margin-left: 0;
+	}
+
+	#content {
+		width: 100%;
+	}
+}
+
+/* Custom Colors */
+.bg-primary {
+	background-color: #3498db !important;
+}
+
+.bg-success {
+	background-color: #2ecc71 !important;
+}
+
+.bg-warning {
+	background-color: #f1c40f !important;
+}
+
+.bg-danger {
+	background-color: #e74c3c !important;
+}
+
+/* Animations */
+.card {
+	transition: transform 0.2s;
+}
+
+.card:hover {
+	transform: translateY(-5px);
+}

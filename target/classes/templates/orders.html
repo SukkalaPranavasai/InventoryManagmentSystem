@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Orders - Inventory Management System</title>
+	<!-- Bootstrap CSS -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+	<!-- Font Awesome -->
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+	<link rel="stylesheet" th:href="@{/static/css/style.css}">
+</head>
+
+<body>
+	<div class="wrapper">
+		<!-- Sidebar -->
+		<nav id="sidebar">
+			<div class="sidebar-header">
+				<h3>IMS</h3>
+			</div>
+
+			<ul class="list-unstyled components">
+				<li>
+					<a th:href="@{/}">
+						<i class="fas fa-home"></i>
+						Dashboard
+					</a>
+				</li>
+				<li>
+					<a th:href="@{/products}">
+						<i class="fas fa-box"></i>
+						Products
+					</a>
+				</li>
+				<li class="active">
+					<a th:href="@{/orders}">
+						<i class="fas fa-shopping-cart"></i>
+						Orders
+					</a>
+				</li>
+				<li>
+					<a th:href="@{/suppliers}">
+						<i class="fas fa-truck"></i>
+						Suppliers
+					</a>
+				</li>
+				<li>
+					<a th:href="@{/reports}">
+						<i class="fas fa-chart-bar"></i>
+						Reports
+					</a>
+				</li>
+			</ul>
+		</nav>
+
+		<!-- Page Content -->
+		<div id="content">
+			<!-- Navbar -->
+			<nav class="navbar navbar-expand-lg navbar-light bg-light">
+				<div class="container-fluid">
+					<button type="button" id="sidebarCollapse" class="btn btn-info" aria-label="Toggle Sidebar"
+						title="Toggle Sidebar">
+						<i class="fas fa-bars" aria-hidden="true"></i>
+					</button>
+					<span class="navbar-text ms-auto">
+						Orders Management
+					</span>
+				</div>
+			</nav>
+
+			<!-- Main Content -->
+			<div class="container-fluid content-wrapper">
+				<div class="row mb-4">
+					<div class="col-12">
+						<div class="card">
+							<div class="card-header d-flex justify-content-between align-items-center">
+								<h5 class="card-title mb-0">Orders List</h5>
+								<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addOrderModal"
+									title="Place New Order" aria-label="Place New Order">
+									<i class="fas fa-plus" aria-hidden="true"></i> Place New Order
+								</button>
+							</div>
+							<div class="card-body">
+								<div class="table-responsive">
+									<table class="table table-hover">
+										<thead>
+											<tr>
+												<th>ID</th>
+												<th>Order Number</th>
+												<th>Products</th>
+												<th>Total Amount</th>
+												<th>Actions</th>
+											</tr>
+										</thead>
+										<tbody id="ordersTableBody">
+											<!-- Orders will be populated here -->
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Add Order Modal -->
+	<div class="modal fade" id="addOrderModal" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Place New Order</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+						title="Close"></button>
+				</div>
+				<div class="modal-body">
+					<form id="addOrderForm">
+						<div class="mb-3">
+							<label for="productId" class="form-label">Product ID</label>
+							<input type="number" class="form-control" id="productId" required>
+						</div>
+						<div class="mb-3">
+							<label for="quantity" class="form-label">Quantity</label>
+							<input type="number" class="form-control" id="quantity" min="1" required>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" title="Cancel"
+						aria-label="Cancel">Cancel</button>
+					<button type="button" class="btn btn-primary" id="placeOrderBtn" title="Place Order"
+						aria-label="Place Order">Place Order</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Delete Confirmation Modal -->
+	<div class="modal fade" id="deleteConfirmModal" tabindex="-1">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Confirm Delete</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+						title="Close"></button>
+				</div>
+				<div class="modal-body">
+					Are you sure you want to delete this order?
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" title="Cancel"
+						aria-label="Cancel">Cancel</button>
+					<button type="button" class="btn btn-danger" id="confirmDeleteBtn" title="Delete"
+						aria-label="Delete">Delete</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Edit Order Modal -->
+	<div class="modal fade" id="editOrderModal" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Edit Order</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+						title="Close"></button>
+				</div>
+				<div class="modal-body">
+					<form id="editOrderForm">
+						<div class="mb-3">
+							<label for="editProductId" class="form-label">Product ID</label>
+							<input type="number" class="form-control" id="editProductId" required>
+						</div>
+						<div class="mb-3">
+							<label for="editQuantity" class="form-label">Quantity</label>
+							<input type="number" class="form-control" id="editQuantity" min="1" required>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" title="Cancel"
+						aria-label="Cancel">Cancel</button>
+					<button type="button" class="btn btn-primary" id="updateOrderBtn" title="Update Order"
+						aria-label="Update Order">Update Order</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Toast Container -->
+	<div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 9999;">
+		<div id="orderToast" class="toast align-items-center text-white bg-success border-0" role="alert">
+			<div class="d-flex">
+				<div class="toast-body" id="toastMsg">Toast message</div>
+				<button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" title="Close" aria-label="Close"></button>
+			</div>
+		</div>
+	</div>
+
+	<!-- Bootstrap JS and dependencies -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script th:src="@{/static/js/orders.js}"></script>
+</body>
+
+</html>
